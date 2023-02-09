@@ -1,16 +1,23 @@
-const INITIAL_STATE = {
-  player: {
-    name: '',
-    assertions: '',
-    score: '',
-    gravatarEmail: '',
-  } };
+import { SAVE_USER } from '../actions';
 
-function playerReducer(state = INITIAL_STATE, action) {
+const INITIAL_STATE = {
+  name: '',
+  assertions: '',
+  score: '',
+  gravatarEmail: '',
+};
+
+function player(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case SAVE_USER:
+    return {
+      ...state,
+      name: action.payload.name,
+      gravatarEmail: action.payload.gravatarEmail,
+    };
   default:
     return state;
   }
 }
 
-export default playerReducer;
+export default player;

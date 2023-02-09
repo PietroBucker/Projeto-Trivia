@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { actionSaveUser } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     gravatarEmail: '',
@@ -27,6 +30,7 @@ export default class Login extends Component {
 
   render() {
     const { name, gravatarEmail, disable } = this.state;
+    const { dispatch } = this.props;
     return (
       <section>
         <label htmlFor="input-name">
@@ -47,7 +51,7 @@ export default class Login extends Component {
             id="input-email"
             name="gravatarEmail"
             value={ gravatarEmail }
-            type="text"
+            type="email"
             data-testid="input-gravatar-email"
             onChange={ this.handleChange }
           />
@@ -57,6 +61,7 @@ export default class Login extends Component {
           type="button"
           disabled={ disable }
           data-testid="btn-play"
+          onClick={ () => dispatch(actionSaveUser(this.state)) }
         >
           Play
         </button>
@@ -66,3 +71,8 @@ export default class Login extends Component {
     );
   }
 }
+export default connect()(Login);
+
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
