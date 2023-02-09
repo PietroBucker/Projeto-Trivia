@@ -40,7 +40,7 @@ class Login extends Component {
 
   render() {
     const { name, gravatarEmail, disable } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     return (
       <section>
         <label htmlFor="input-name">
@@ -79,7 +79,14 @@ class Login extends Component {
           Play
         </button>
 
-        <button type="button">Configuração</button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configuração
+        </button>
+
       </section>
     );
   }
