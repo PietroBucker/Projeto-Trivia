@@ -11,11 +11,14 @@ class Perguntas extends Component {
   }
 
   render() {
+    const { id } = this.state;
+    // const respostaErrada = <p data-testid={ `wrong-answer-${index}` } />;
+    // const respostaErrada = <p data-testid={ `wrong-answer-${index}` } />;
     return (
       <div>
         <h2>Perguntas</h2>
-        <p data-testid="question-category"></p>
-        <p data-testid="question-text"></p>
+        <p data-testid="question-category" />
+        <p data-testid="question-text" />
       </div>
     );
   }
