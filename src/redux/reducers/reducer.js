@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   assertions: '',
   score: '',
   gravatarEmail: '',
+  token: '',
 };
 
 function player(state = INITIAL_STATE, action) {
@@ -14,6 +15,7 @@ function player(state = INITIAL_STATE, action) {
       ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.gravatarEmail,
+      token: action.payload.token,
     };
   default:
     return state;

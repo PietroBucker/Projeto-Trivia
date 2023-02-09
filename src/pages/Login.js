@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actionSaveUser } from '../redux/actions';
+import requestApiTrivia from '../api/api';
 
 class Login extends Component {
   state = {
     name: '',
     gravatarEmail: '',
     disable: true,
+    token: '',
+  };
+
+  GetApiToken = async () => {
+    const { history } = this.props;
+    const { token } = await requestApiTrivia();
+    this.setState({ token });
+    localStorage.setItem('token', token);
+    history.push('/game');
   };
 
   validate = () => {
@@ -61,7 +71,10 @@ class Login extends Component {
           type="button"
           disabled={ disable }
           data-testid="btn-play"
-          onClick={ () => dispatch(actionSaveUser(this.state)) }
+          onClick={ () => {
+            dispatch(actionSaveUser(this.state));
+            this.GetApiToken();
+          } }
         >
           Play
         </button>
@@ -82,5 +95,5 @@ export default connect()(Login);
 
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  history: PropTypes.shape().isRequired,
 };
