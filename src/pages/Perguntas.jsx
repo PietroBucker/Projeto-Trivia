@@ -3,53 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Perguntas extends Component {
-  state = {
-    didClick: false,
-    disabled: false,
-  };
-
-  didIsClick = () => {
-    this.setState({
-      didClick: true,
-      disabled: true,
-    });
-  };
-
-  createAnswer = () => {
-    const { question } = this.props;
-    const { didClick, disabled } = this.state;
-    const correctButton = (
-      <button
-        data-testid="correct-answer"
-        type="button"
-        key="answer"
-        onClick={ this.didIsClick }
-        className={ didClick && 'correct-answer' }
-        disabled={ disabled }
-      >
-        {question.correct_answer}
-      </button>);
-    const incorrectButtons = question.incorrect_answers.map((answer, index) => (
-      <button
-        data-testid={ `wrong-answer-${index}` }
-        type="button"
-        key={ answer }
-        className={ didClick && 'wrong-answer' }
-        onClick={ this.didIsClick }
-        disabled={ disabled }
-      >
-        {answer}
-      </button>
-    ));
-    incorrectButtons.push(correctButton);
-    const buttons = incorrectButtons;
-    const randomFactor = 0.5;
-    buttons.sort(() => Math.random() - randomFactor);
-    return buttons;
-  };
-
   render() {
-    const { question, handleClick } = this.props;
+    const { question, handleClick, answers } = this.props;
     const { category } = question;
     return (
       <div>
@@ -57,10 +12,9 @@ class Perguntas extends Component {
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question.question}</p>
         <div data-testid="answer-options">
-          {/* {this.createAnswer()} */}
+          {answers}
         </div>
         <button type="button" onClick={ handleClick }>Next</button>
-
       </div>
     );
   }
