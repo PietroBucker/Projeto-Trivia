@@ -58,6 +58,7 @@ Perguntas.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.shape({})),
     question: PropTypes.string,
   }),
+  didClick: PropTypes.bool.isRequired,
 };
 
 Perguntas.defaultProps = {
