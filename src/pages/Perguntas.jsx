@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 class Perguntas extends Component {
   createAnswer = () => {
-    const { question, handleClick } = this.props;
+    const { question, handleClick, didClick } = this.props;
     const correctButton = (
       <button
         data-testid="correct-answer"
         type="button"
         key="answer"
         onClick={ handleClick }
+        className={ didClick && 'correct-answer' }
       >
         {question.correct_answer}
       </button>);
@@ -19,6 +20,7 @@ class Perguntas extends Component {
         data-testid={ `wrong-answer-${index}` }
         type="button"
         key={ answer }
+        className={ didClick && 'wrong-answer' }
         onClick={ handleClick }
       >
         {answer}
@@ -56,6 +58,7 @@ Perguntas.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.shape({})),
     question: PropTypes.string,
   }),
+  didClick: PropTypes.bool.isRequired,
 };
 
 Perguntas.defaultProps = {
