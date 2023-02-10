@@ -10,7 +10,9 @@ class Game extends Component {
     perguntas: [],
     idPergunta: 0,
     isLoaded: false,
-    didClick: false,
+    seconds: 30,
+    score: 0,
+    // IdInterval: '',
     // respostas: [],
     // enable: true,
   };
@@ -25,18 +27,44 @@ class Game extends Component {
       }
       this.setState({ isLoaded: true });
     });
+    this.startTime();
   }
 
+  componentDidUpdate(_prevProps, prevState) {
+    const TIME_LIMIT = 1;
+    if (prevState.seconds === TIME_LIMIT) {
+      clearInterval(this.intervalID);
+      this.handleClick();
+    }
+  }
+
+  startTime = () => {
+    const ONE_SECOND = 1000;
+    this.intervalID = setInterval(() => {
+      this.setState((prev) => ({
+        seconds: prev.seconds - 1,
+      }));
+    }, ONE_SECOND);
+  };
+
+  // countDown = (sec) => {
+  //   if(sec < 1) {
+  //     clearTimeout(timer);
+  //   };
+  //   sec - sec - 1;
+  //   let timer = setTimeout(this.countDown(sec),1000);
+  // };
+
   handleClick = () => {
-    // const { idPergunta } = this.state;
+    const { idPergunta } = this.state;
     this.setState({
-      // idPergunta: idPergunta + 1,
-      didClick: true,
+      idPergunta: idPergunta + 1,
     });
+    // this.startTime();
   };
 
   render() {
-    const { perguntas, isLoaded, idPergunta, didClick } = this.state;
+    const { perguntas, isLoaded, idPergunta, seconds } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -46,9 +74,11 @@ class Game extends Component {
             question={ perguntas[idPergunta] }
             handleClick={ this.handleClick }
             history={ history }
-            didClick={ didClick }
+            seconds={ seconds }
+            // answer={}
           /> : ''
         }
+        <p>{seconds}</p>
         <Header />
         game
       </div>
