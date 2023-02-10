@@ -3,15 +3,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Perguntas extends Component {
+  state = {
+    didClick: false,
+    disabled: false,
+  };
+
+  didIsClick = () => {
+    this.setState({
+      didClick: true,
+      disabled: true,
+    });
+  };
+
   createAnswer = () => {
-    const { question, handleClick, didClick } = this.props;
+    const { question } = this.props;
+    const { didClick, disabled } = this.state;
     const correctButton = (
       <button
         data-testid="correct-answer"
         type="button"
         key="answer"
-        onClick={ handleClick }
+        onClick={ this.didIsClick }
         className={ didClick && 'correct-answer' }
+        disabled={ disabled }
       >
         {question.correct_answer}
       </button>);
@@ -21,7 +35,8 @@ class Perguntas extends Component {
         type="button"
         key={ answer }
         className={ didClick && 'wrong-answer' }
-        onClick={ handleClick }
+        onClick={ this.didIsClick }
+        disabled={ disabled }
       >
         {answer}
       </button>
@@ -34,7 +49,7 @@ class Perguntas extends Component {
   };
 
   render() {
-    const { question } = this.props;
+    const { question, handleClick } = this.props;
     const { category } = question;
     return (
       <div>
@@ -42,8 +57,9 @@ class Perguntas extends Component {
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question.question}</p>
         <div data-testid="answer-options">
-          {this.createAnswer()}
+          {/* {this.createAnswer()} */}
         </div>
+        <button type="button" onClick={ handleClick }>Next</button>
 
       </div>
     );
@@ -58,6 +74,7 @@ Perguntas.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     question: PropTypes.string,
   }),
+  seconds: PropTypes.number,
   didClick: PropTypes.bool.isRequired,
 };
 
@@ -68,6 +85,7 @@ Perguntas.defaultProps = {
     incorrect_answers: [],
     question: '',
   }),
+  seconds: 0,
 };
 const mapStateToProps = (state) => ({
   player: state.player,
