@@ -10,9 +10,9 @@ class Game extends Component {
     perguntas: [],
     idPergunta: 0,
     isLoaded: false,
+    seconds: 30,
     didClick: false,
-    // respostas: [],
-    // enable: true,
+    respostas: [],
   };
 
   async componentDidMount() {
@@ -24,19 +24,84 @@ class Game extends Component {
         history.push('/');
       }
       this.setState({ isLoaded: true });
+      this.setState({ respostas: this.createAnswer() });
     });
+    this.startTime();
   }
 
-  handleClick = () => {
-    // const { idPergunta } = this.state;
+  componentDidUpdate(_prevProps, prevState) {
+    const TIME_LIMIT = 1;
+    if (prevState.seconds === TIME_LIMIT) {
+      clearInterval(this.intervalID);
+      this.handleClick();
+    }
+  }
+
+  didIsClick = () => {
     this.setState({
-      // idPergunta: idPergunta + 1,
-      didClick: true,
+      disabled: true,
+      classOne: 'correct-answer',
+      classTwo: 'wrong-answer',
+    });
+    console.log('clickou');
+  };
+
+  createAnswer = () => {
+    const { classOne, disabled, perguntas, idPergunta, classTwo } = this.state;
+    const question = perguntas[idPergunta];
+    const correctButton = (
+      <button
+        data-testid="correct-answer"
+        type="button"
+        key="answer"
+        onClick={ this.didIsClick }
+        className={ classOne }
+        disabled={ disabled }
+      >
+        {question.correct_answer}
+      </button>);
+    const incorrectButtons = question.incorrect_answers.map((answer, index) => (
+      <button
+        data-testid={ `wrong-answer-${index}` }
+        type="button"
+        key={ answer }
+        className={ classTwo }
+        onClick={ this.didIsClick }
+        disabled={ disabled }
+      >
+        {answer}
+      </button>));
+    incorrectButtons.push(correctButton);
+    const buttons = incorrectButtons;
+    const randomFactor = 0.5;
+    buttons.sort(() => Math.random() - randomFactor);
+    return buttons;
+  };
+
+  startTime = () => {
+    const ONE_SECOND = 1000;
+    this.intervalID = setInterval(() => {
+      this.setState((prev) => ({
+        seconds: prev.seconds - 1,
+      }));
+    }, ONE_SECOND);
+  };
+
+  handleClick = () => {
+    const { idPergunta } = this.state;
+    this.setState({
+      idPergunta: idPergunta + 1,
+      didClick: false,
+      disabled: false,
+      classOne: '',
+      classTwo: '',
+    }, () => {
+      this.setState({ respostas: this.createAnswer() });
     });
   };
 
   render() {
-    const { perguntas, isLoaded, idPergunta, didClick } = this.state;
+    const { perguntas, isLoaded, idPergunta, seconds, respostas } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -46,9 +111,11 @@ class Game extends Component {
             question={ perguntas[idPergunta] }
             handleClick={ this.handleClick }
             history={ history }
-            didClick={ didClick }
+            seconds={ seconds }
+            answers={ respostas }
           /> : ''
         }
+        <p>{seconds}</p>
         <Header />
         game
       </div>
