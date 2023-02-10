@@ -10,8 +10,8 @@ class Game extends Component {
     perguntas: [],
     idPergunta: 0,
     isLoaded: false,
-    respostas: [],
-    enable: true,
+    // respostas: [],
+    // enable: true,
   };
 
   async componentDidMount() {
