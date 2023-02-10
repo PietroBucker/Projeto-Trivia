@@ -1,4 +1,4 @@
-import { SAVE_USER } from '../actions';
+import { REJECTED, SAVE_USER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   score: '',
   gravatarEmail: '',
   token: '',
+  error: '',
 };
 
 function player(state = INITIAL_STATE, action) {
@@ -16,6 +17,11 @@ function player(state = INITIAL_STATE, action) {
       name: action.payload.name,
       gravatarEmail: action.payload.gravatarEmail,
       token: action.payload.token,
+    };
+  case REJECTED:
+    return {
+      ...state,
+      error: action.payload.error,
     };
   default:
     return state;

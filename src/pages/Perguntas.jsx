@@ -53,7 +53,7 @@ Perguntas.propTypes = {
   question: PropTypes.shape({
     category: PropTypes.string,
     correct_answer: PropTypes.string,
-    incorrect_answers: PropTypes.arrayOf(PropTypes.shape({})),
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     question: PropTypes.string,
   }),
 };
