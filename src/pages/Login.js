@@ -13,11 +13,13 @@ class Login extends Component {
   };
 
   GetApiToken = async () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const { token } = await requestApiTrivia();
-    this.setState({ token });
-    localStorage.setItem('token', token);
-    history.push('/game');
+    this.setState({ token }, () => {
+      localStorage.setItem('token', token);
+      dispatch(actionSaveUser(this.state));
+      history.push('/game');
+    });
   };
 
   validate = () => {
@@ -40,7 +42,7 @@ class Login extends Component {
 
   render() {
     const { name, gravatarEmail, disable } = this.state;
-    const { dispatch, history } = this.props;
+    const { history } = this.props;
     return (
       <section>
         <label htmlFor="input-name">
@@ -72,7 +74,6 @@ class Login extends Component {
           disabled={ disable }
           data-testid="btn-play"
           onClick={ () => {
-            dispatch(actionSaveUser(this.state));
             this.GetApiToken();
           } }
         >
