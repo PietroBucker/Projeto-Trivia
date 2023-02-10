@@ -10,6 +10,7 @@ class Game extends Component {
     perguntas: [],
     idPergunta: 0,
     isLoaded: false,
+    didClick: false,
     // respostas: [],
     // enable: true,
   };
@@ -27,12 +28,15 @@ class Game extends Component {
   }
 
   handleClick = () => {
-    const { idPergunta } = this.state;
-    this.setState({ idPergunta: idPergunta + 1 });
+    // const { idPergunta } = this.state;
+    this.setState({
+      // idPergunta: idPergunta + 1,
+      didClick: true,
+    });
   };
 
   render() {
-    const { perguntas, isLoaded, idPergunta } = this.state;
+    const { perguntas, isLoaded, idPergunta, didClick } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -42,6 +46,7 @@ class Game extends Component {
             question={ perguntas[idPergunta] }
             handleClick={ this.handleClick }
             history={ history }
+            didClick={ didClick }
           /> : ''
         }
         <Header />
