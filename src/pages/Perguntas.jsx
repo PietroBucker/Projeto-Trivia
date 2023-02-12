@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class Perguntas extends Component {
   render() {
-    const { question, handleClick, answers } = this.props;
+    const { question, handleClick } = this.props;
     const { category } = question;
     return (
       <div>
@@ -12,7 +12,7 @@ class Perguntas extends Component {
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question.question}</p>
         <div data-testid="answer-options">
-          {answers}
+          {/* {answers} */}
         </div>
         <button type="button" onClick={ handleClick }>Next</button>
       </div>

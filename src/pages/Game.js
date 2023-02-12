@@ -13,6 +13,7 @@ class Game extends Component {
     seconds: 30,
     didClick: false,
     respostas: [],
+    indexResposta: 0,
   };
 
   async componentDidMount() {
@@ -22,12 +23,34 @@ class Game extends Component {
     this.setState({ perguntas: data.results }, () => {
       if (tokenStorage !== token || data.results.length === 0) {
         history.push('/');
+        return;
       }
+
+      this.setState({ respostas: [] });
+      // organiza os respects
+      if (data.results[0].incorrect_answers[0] === 'False'
+          || data.results[0].incorrect_answers[0] === 'True'
+      ) {
+        const resposta0 = [data.results[0].incorrect_answers[0],
+          data.results[0].correct_answer];
+        const randomFactor = 0.5;
+        resposta0.sort((a, b) => Math.random() - randomFactor);
+        this.setState({ respostas: resposta0 });
+        this.setState({ isLoaded: true });
+        this.startTime();
+        return;
+      }
+      const resposta0 = data.results[0].incorrect_answers;
+      resposta0.push(data.results[0].correct_answer);
+
+      const randomFactor = 0.5;
+      resposta0.sort(() => Math.random() - randomFactor);
+      this.setState({ respostas: resposta0 });
       this.setState({ isLoaded: true });
-      this.setState({ respostas: this.createAnswer() });
     });
     this.startTime();
   }
+
 
   componentDidUpdate(_prevProps, prevState) {
     const TIME_LIMIT = 1;
@@ -37,46 +60,51 @@ class Game extends Component {
     }
   }
 
-  didIsClick = () => {
-    this.setState({
-      disabled: true,
-      classOne: 'correct-answer',
-      classTwo: 'wrong-answer',
-    });
-    console.log('clickou');
+  shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
   };
 
-  createAnswer = () => {
-    const { classOne, disabled, perguntas, idPergunta, classTwo } = this.state;
-    const question = perguntas[idPergunta];
+  createCorrectButton = () => {
     const correctButton = (
       <button
         data-testid="correct-answer"
         type="button"
         key="answer"
         onClick={ this.didIsClick }
-        className={ classOne }
+        className="correct-answer"
         disabled={ disabled }
       >
         {question.correct_answer}
       </button>);
-    const incorrectButtons = question.incorrect_answers.map((answer, index) => (
+    return correctButton;
+  };
+
+  createIncorrectButton = (incorrectAnswers) => {
+    const incorrectButtons = incorrectAnswers.map((answer, index) => (
       <button
         data-testid={ `wrong-answer-${index}` }
         type="button"
         key={ answer }
-        className={ classTwo }
+        className="wrong-answer"
         onClick={ this.didIsClick }
         disabled={ disabled }
       >
         {answer}
       </button>));
-    incorrectButtons.push(correctButton);
-    const buttons = incorrectButtons;
-    const randomFactor = 0.5;
-    buttons.sort(() => Math.random() - randomFactor);
-    return buttons;
+    return incorrectButtons;
   };
+
+  // sortButtons = (button) => {
+  //   const buttons = incorrectButtons;
+  //   const randomFactor = 0.5;
+  //   buttons.sort(() => Math.random() - randomFactor);
+  //   return buttons;
+  // };
 
   startTime = () => {
     const ONE_SECOND = 1000;
@@ -91,17 +119,16 @@ class Game extends Component {
     const { idPergunta } = this.state;
     this.setState({
       idPergunta: idPergunta + 1,
-      didClick: false,
+      // didClick: false,
       disabled: false,
-      classOne: '',
-      classTwo: '',
     }, () => {
       this.setState({ respostas: this.createAnswer() });
     });
   };
 
   render() {
-    const { perguntas, isLoaded, idPergunta, seconds, respostas } = this.state;
+    const { perguntas, isLoaded, idPergunta, seconds,
+      respostas, indexResposta } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -112,9 +139,32 @@ class Game extends Component {
             handleClick={ this.handleClick }
             history={ history }
             seconds={ seconds }
-            answers={ respostas }
+            // answers={ respostas }
           /> : ''
         }
+        { respostas.map((resposta, index) => {
+          if (resposta === perguntas[idPergunta].correct_answer) {
+            return (
+              <button
+                data-testid="correct-answer"
+                key={ resposta }
+                className="correct-answer"
+              >
+                { resposta }
+              </button>
+            );
+          }
+          const button = (
+            <button
+              data-testid={ `wrong-answer-${index}` }
+              className="wrong-answer"
+              key={ resposta }
+            >
+              { resposta }
+            </button>);
+          // this.setState({ indexResposta: indexResposta + 1 });
+          return button;
+        })}
         <p>{seconds}</p>
         <Header />
         game
