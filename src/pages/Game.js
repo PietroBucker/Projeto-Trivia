@@ -13,6 +13,7 @@ class Game extends Component {
     seconds: 30,
     respostas: [],
     disabled: false,
+    isFirstQuestion: true,
   };
 
   async componentDidMount() {
@@ -25,20 +26,18 @@ class Game extends Component {
         return;
       }
       this.setState({ respostas: [] });
+
       const randomFactor = 0.5;
+      let resposta0 = [];
       if (data.results[0].incorrect_answers[0] === 'False'
           || data.results[0].incorrect_answers[0] === 'True'
       ) {
-        const resposta0 = [data.results[0].incorrect_answers[0],
+        resposta0 = [data.results[0].incorrect_answers[0],
           data.results[0].correct_answer];
-        resposta0.sort(() => Math.random() - randomFactor);
-        this.setState({ respostas: resposta0 });
-        this.setState({ isLoaded: true });
-        this.startTime();
-        return;
+      } else {
+        resposta0 = data.results[0].incorrect_answers;
+        resposta0.push(data.results[0].correct_answer);
       }
-      const resposta0 = data.results[0].incorrect_answers;
-      resposta0.push(data.results[0].correct_answer);
 
       resposta0.sort(() => Math.random() - randomFactor);
       this.setState({ respostas: resposta0 });
@@ -50,7 +49,7 @@ class Game extends Component {
   componentDidUpdate(_prevProps, prevState) {
     const TIME_LIMIT = 1;
     if (prevState.seconds === TIME_LIMIT) {
-      this.turnOnDisabled();
+      this.setState({ disabled: true });
       clearInterval(this.intervalID);
     }
   }
@@ -80,22 +79,20 @@ class Game extends Component {
 
     const randomFactor = 0.5;
     resposta.sort(() => Math.random() - randomFactor);
-    this.setState({ respostas: resposta });
-  };
-
-  turnOnDisabled = () => {
-    this.setState({
-      disabled: true,
+    this.setState({ respostas: resposta,
+      disabled: false,
     });
   };
 
   handleAnswer = () => {
-    this.turnOnDisabled();
+    this.setState({ disabled: true,
+      isFirstQuestion: false,
+    });
   };
 
   render() {
     const { perguntas, isLoaded, idPergunta, seconds,
-      respostas, disabled } = this.state;
+      respostas, disabled, isFirstQuestion } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -135,6 +132,16 @@ class Game extends Component {
             return button;
           })}
         </div>
+        { !isFirstQuestion
+          ? (
+            <button
+              type="button"
+              onClick={ this.handleNext }
+              data-testid="btn-next"
+            >
+              Next
+            </button>)
+          : '' }
         <p>{seconds}</p>
         <Header />
         game
