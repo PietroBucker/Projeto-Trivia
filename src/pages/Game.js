@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Perguntas from './Perguntas';
+import Perguntas from '../compomemts/Perguntas';
 import Header from '../compomemts/Header';
 import { requestQuestion } from '../api/api';
 
