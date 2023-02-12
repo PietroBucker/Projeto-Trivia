@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { actionSaveUser } from '../redux/actions';
-import { requestApiTrivia } from '../api/api';
+import { actionGetApi } from '../redux/actions';
 
 class Login extends Component {
   state = {
     name: '',
     gravatarEmail: '',
     disable: true,
-    token: '',
   };
+
+  // GetApiToken = async () => {
+  //   const { history, dispatch } = this.props;
+  //   const { token } = await requestApiTrivia();
+  //   this.setState({ token }, () => {
+  //     localStorage.setItem('token', token);
+  //     dispatch(actionSaveUser(this.state));
+  //     history.push('/game');
+  //   });
+  // };
 
   GetApiToken = async () => {
     const { history, dispatch } = this.props;
-    const { token } = await requestApiTrivia();
-    this.setState({ token }, () => {
-      localStorage.setItem('token', token);
-      dispatch(actionSaveUser(this.state));
-      history.push('/game');
-    });
+    await dispatch(actionGetApi(this.state));
+    history.push('/game');
   };
 
   validate = () => {
