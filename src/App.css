@@ -63,13 +63,9 @@ body {
 }
 
 .correct-answer {
-  border: 3px solid rgb(6, 240, 15) ;
+  border: 3px solid rgb(6, 240, 15);
 }
 
 .wrong-answer {
   border: 3px solid red;
-}
-
-.botao{
-  /* border: 3px solid black; */
 }

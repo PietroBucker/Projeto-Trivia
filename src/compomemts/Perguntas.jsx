@@ -4,32 +4,27 @@ import { connect } from 'react-redux';
 
 class Perguntas extends Component {
   render() {
-    const { question, handleClick, answers } = this.props;
+    const { question, handleNext } = this.props;
     const { category } = question;
     return (
       <div>
         <h2>Perguntas</h2>
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question.question}</p>
-        <div data-testid="answer-options">
-          {answers}
-        </div>
-        <button type="button" onClick={ handleClick }>Next</button>
+        <button type="button" onClick={ handleNext }>Next</button>
       </div>
     );
   }
 }
 
 Perguntas.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleNext: PropTypes.func.isRequired,
   question: PropTypes.shape({
     category: PropTypes.string,
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     question: PropTypes.string,
   }),
-  seconds: PropTypes.number,
-  didClick: PropTypes.bool.isRequired,
 };
 
 Perguntas.defaultProps = {
@@ -39,7 +34,6 @@ Perguntas.defaultProps = {
     incorrect_answers: [],
     question: '',
   }),
-  seconds: 0,
 };
 const mapStateToProps = (state) => ({
   player: state.player,
