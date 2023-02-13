@@ -50,7 +50,7 @@ class Game extends Component {
   componentDidUpdate(_prevProps, prevState) {
     const TIME_LIMIT = 1;
     if (prevState.seconds === TIME_LIMIT) {
-      this.setState({ disabled: true });
+      this.setState({ disabled: true, isFirstQuestion: false });
       clearInterval(this.intervalID);
     }
   }

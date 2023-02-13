@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -20,17 +21,14 @@ class Ranking extends Component {
           players.map((player, index) => {
             console.log('');
             return (
-              <div>
+              <div key={ player.name }>
                 <h2
                   data-testid={ `player-name-${index}` }
-                  key={ player.name }
                 >
                   {player.name}
-
                 </h2>
                 <p
                   data-testid={ `player-score-${index}` }
-                  key={ player.name }
                 >
                   {player.score}
                 </p>
@@ -52,9 +50,15 @@ class Ranking extends Component {
   }
 }
 
+Ranking.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
 // Esperando o nome do reducer para essa page.
-const mapStateToProps = (state) => ({
-  players: state.players,
-});
+// const mapStateToProps = (state) => ({
+//   players: state.players,
+// });
 
 export default connect()(Ranking);
