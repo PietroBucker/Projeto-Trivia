@@ -68,6 +68,7 @@ class Game extends Component {
     const { idPergunta } = this.state;
     this.setState({
       idPergunta: idPergunta + 1,
+      disabled: false,
     }, () => {
       this.updateNextAnswer();
     });
@@ -82,13 +83,19 @@ class Game extends Component {
 
   updateNextAnswer = () => {
     const { perguntas, idPergunta } = this.state;
-    const resposta = perguntas[idPergunta].incorrect_answers;
-    resposta.push(perguntas[idPergunta].correct_answer);
+    let resposta = [];
+    if (Array.isArray(perguntas[idPergunta].correct_answer)) {
+      resposta = perguntas[idPergunta].incorrect_answers;
+      resposta.push(perguntas[idPergunta].correct_answer[0]);
+    } else {
+      resposta = perguntas[idPergunta].incorrect_answers;
+      resposta.push(perguntas[idPergunta].correct_answer);
+    }
 
     const randomFactor = 0.5;
     resposta.sort(() => Math.random() - randomFactor);
     this.setState({ respostas: resposta,
-      disabled: false,
+      // disabled: false,
     });
   };
 
