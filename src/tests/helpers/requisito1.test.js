@@ -34,4 +34,11 @@ describe('Testa tela de login', () => {
     expect(history.location.pathname).toBe('/game');
     expect(await screen.findByText('teste teste')).toBeInTheDocument()
   })
+
+  it('verifica se ao clicar no botao configurações e direciona a pagina para /settings', () => {
+    const { history } = renderWithRouterAndRedux(<App />)
+    const btnSetting = screen.getByRole('button', { name: /configuração/i });
+    userEvent.click(btnSetting)
+    expect(history.location.pathname).toBe('/settings');
+  })
 })

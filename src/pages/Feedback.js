@@ -24,9 +24,20 @@ class Feedback extends Component {
           {assertions}
         </span>
         <button
+          data-testid="btn-play-again"
           type="button"
-          onClick={ () => history.push('/ranking') }
+          onClick={ () => {
+            history.push('/');
+          } }
+        >
+          Play Again
+        </button>
+        <button
           data-testid="btn-ranking"
+          type="button"
+          onClick={ () => {
+            history.push('/ranking');
+          } }
         >
           Ranking
         </button>
@@ -46,9 +57,7 @@ Feedback.propTypes = {
 Feedback.defaultProps = {
   assertions: 0,
   score: 0,
-  history: PropTypes.shape({
-    push: () => {},
-  }),
+  history: PropTypes.shape({}),
 };
 
 const mapStateToProps = (globalState) => ({
