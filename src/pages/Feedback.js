@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class Feedback extends Component {
   render() {
-    // const { assertions, score } = this.props;
+    const { assertions, score } = this.props;
     const asserts = 3;
     return (
       <div>
@@ -15,9 +15,9 @@ class Feedback extends Component {
           { score }
         </span>
         <span
-          data-testid="feedback-total-score"
+          data-testid="feedback-total-question"
         >
-          {/* {`Voce acertou ${assertions} preguntas`} */}
+          {`Voce acertou ${assertions} preguntas`}
         </span>
       </div>
     );
