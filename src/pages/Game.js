@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Perguntas from '../compomemts/Perguntas';
 import { requestQuestion } from '../api/api';
 import { actionSaveScore } from '../redux/actions';
+import Header from '../compomemts/Header';
 
 class Game extends Component {
   state = {
@@ -133,6 +134,7 @@ class Game extends Component {
     const { history } = this.props;
     return (
       <div>
+        <Header />
         <h2>Show do milhão</h2>
         {
           isLoaded ? <Perguntas
