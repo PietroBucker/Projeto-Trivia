@@ -32,6 +32,6 @@ describe('Testa tela de login', () => {
     userEvent.click(btnPlay);
     expect(await screen.findByRole('heading', { name: /show do milhão/i, level: 2 }))
     expect(history.location.pathname).toBe('/game');
-    expect(screen.findby)
+    expect(await screen.findByText('teste teste')).toBeInTheDocument()
   })
 })

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Perguntas from '../compomemts/Perguntas';
-import Header from '../compomemts/Header';
 import { requestQuestion } from '../api/api';
 import { actionSaveScore } from '../redux/actions';
 
@@ -134,7 +133,6 @@ class Game extends Component {
     const { history } = this.props;
     return (
       <div>
-        <Header />
         <h2>Show do milhão</h2>
         {
           isLoaded ? <Perguntas
