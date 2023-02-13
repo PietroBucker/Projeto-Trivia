@@ -29,6 +29,8 @@ function player(state = INITIAL_STATE, action) {
       name: action.payload.name,
       gravatarEmail: action.payload.gravatarEmail,
       token: action.payload.token,
+      score: 0,
+      assetions: 0,
     };
   case REJECTED:
     return {

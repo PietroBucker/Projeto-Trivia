@@ -5,7 +5,7 @@ import Header from '../compomemts/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
     console.log(score);
     console.log(assertions);
     const asserts = 3;
@@ -27,7 +27,6 @@ class Feedback extends Component {
           data-testid="btn-play-again"
           type="button"
           onClick={ () => {
-            const { history } = this.props;
             history.push('/');
           } }
         >
@@ -37,7 +36,6 @@ class Feedback extends Component {
           data-testid="btn-ranking"
           type="button"
           onClick={ () => {
-            const { history } = this.props;
             history.push('/ranking');
           } }
         >
@@ -50,15 +48,16 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   assertions: PropTypes.number,
-  score: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func,
-  }).isRequired,
+  }),
+  score: PropTypes.number,
 };
 
 Feedback.defaultProps = {
   assertions: 0,
   score: 0,
+  history: PropTypes.shape({}),
 };
 
 const mapStateToProps = (globalState) => ({
