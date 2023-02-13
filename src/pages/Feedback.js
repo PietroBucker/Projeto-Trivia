@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class Feedback extends Component {
   render() {
     const { assertions, score } = this.props;
-
+    const asserts = 3;
     return (
       <div>
         { assertions >= asserts
@@ -18,8 +18,18 @@ class Feedback extends Component {
         <span
           data-testid="feedback-total-score"
         >
-          {/* {`Voce acertou ${assertions} preguntas`} */}
+          {`Voce acertou ${assertions} preguntas`}
         </span>
+        <button
+          data-testid="btn-play-again"
+          type="button"
+          onClick={ () => {
+            const { history } = this.props;
+            history.push('/');
+          } }
+        >
+          Play Again
+        </button>
       </div>
     );
   }
@@ -28,6 +38,9 @@ class Feedback extends Component {
 Feedback.propTypes = {
   assertions: PropTypes.number,
   score: PropTypes.number,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 Feedback.defaultProps = {
