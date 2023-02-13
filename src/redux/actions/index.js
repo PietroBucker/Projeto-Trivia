@@ -3,6 +3,7 @@ import { requestApiTrivia } from '../../api/api';
 export const SAVE_USER = 'SAVE-USER';
 export const SUCCESS = 'SUCCESS';
 export const REJECTED = 'REJECTED';
+export const SAVE_SCORE = 'SAVE_SCORE';
 
 export const actionSaveUser = (payload) => ({
   type: SAVE_USER,
@@ -11,6 +12,11 @@ export const actionSaveUser = (payload) => ({
 
 const actionReject = (payload) => ({
   type: REJECTED,
+  payload,
+});
+
+export const actionSaveScore = (payload) => ({
+  type: SAVE_SCORE,
   payload,
 });
 

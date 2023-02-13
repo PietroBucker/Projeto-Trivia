@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Perguntas from '../compomemts/Perguntas';
 import Header from '../compomemts/Header';
 import { requestQuestion } from '../api/api';
+import { actionSaveScore } from '../redux/actions';
 
 class Game extends Component {
   state = {
@@ -84,9 +85,21 @@ class Game extends Component {
     });
   };
 
-  handleAnswer = () => {
+  sendScoreToGlobalState = (resposta) => {
+    const { seconds, idPergunta, perguntas } = this.state;
+    const { dispatch } = this.props;
+    const { difficulty } = perguntas[idPergunta];
+    if (resposta === 'correct-answer') {
+      dispatch(actionSaveScore({ seconds, difficulty }));
+    }
+  };
+
+  handleAnswer = ({ target }) => {
     this.setState({ disabled: true,
       isFirstQuestion: false,
+    }, () => {
+      clearInterval(this.intervalID);
+      this.sendScoreToGlobalState(target.className);
     });
   };
 
@@ -96,6 +109,7 @@ class Game extends Component {
     const { history } = this.props;
     return (
       <div>
+        <Header />
         <h2>Show do milhão</h2>
         {
           isLoaded ? <Perguntas
@@ -143,7 +157,6 @@ class Game extends Component {
             </button>)
           : '' }
         <p>{seconds}</p>
-        <Header />
         game
       </div>
     );
@@ -157,6 +170,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(Game);
 
 Game.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
