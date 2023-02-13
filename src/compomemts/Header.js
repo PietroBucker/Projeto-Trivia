@@ -8,7 +8,6 @@ class Header extends Component {
     const { gravatarEmail, name } = this.props;
     const hast = md5(gravatarEmail).toString();
     const src = `https://www.gravatar.com/avatar/${hast}`;
-    console.log();
     return (
       <header>
         <img
