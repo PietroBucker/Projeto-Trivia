@@ -71,6 +71,13 @@ class Game extends Component {
     }, () => {
       this.updateNextAnswer();
     });
+    this.setState({ seconds: 30 });
+    this.startTime();
+    const { history } = this.props;
+    const n = 4;
+    if (idPergunta === n) {
+      history.push('/feedback');
+    }
   };
 
   updateNextAnswer = () => {
