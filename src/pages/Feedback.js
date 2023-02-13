@@ -5,7 +5,7 @@ import Header from '../compomemts/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
     console.log(score);
     console.log(assertions);
     const asserts = 3;
@@ -23,6 +23,13 @@ class Feedback extends Component {
         >
           {assertions}
         </span>
+        <button
+          type="button"
+          onClick={ () => history.push('/ranking') }
+          data-testid="btn-ranking"
+        >
+          Ranking
+        </button>
       </div>
     );
   }
@@ -30,12 +37,18 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   assertions: PropTypes.number,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   score: PropTypes.number,
 };
 
 Feedback.defaultProps = {
   assertions: 0,
   score: 0,
+  history: PropTypes.shape({
+    push: () => {},
+  }),
 };
 
 const mapStateToProps = (globalState) => ({
