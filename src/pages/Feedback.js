@@ -1,17 +1,41 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Feedback extends Component {
   render() {
-    // const { assertions, score } = this.props;
+    const { assertions, score } = this.props;
 
     return (
-      <div>a</div>
+      <div>
+        { assertions >= asserts
+          ? <span data-testid="feedback-text">Well Done!</span>
+          : <span data-testid="feedback-text">Could be better...</span> }
+        <span data-testid="feedback-total-score">
+          Sua pontuação foi:
+          { score }
+        </span>
+        <span
+          data-testid="feedback-total-score"
+        >
+          {/* {`Voce acertou ${assertions} preguntas`} */}
+        </span>
+      </div>
     );
   }
 }
 
-mapStateToProps = (globalState) => ({
+Feedback.propTypes = {
+  assertions: PropTypes.number,
+  score: PropTypes.number,
+};
+
+Feedback.defaultProps = {
+  assertions: 0,
+  score: 0,
+};
+
+const mapStateToProps = (globalState) => ({
   ...globalState,
 });
 

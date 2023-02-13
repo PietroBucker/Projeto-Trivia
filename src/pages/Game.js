@@ -28,18 +28,23 @@ class Game extends Component {
       }
       this.setState({ respostas: [] });
 
-      const randomFactor = 0.5;
       let resposta0 = [];
       if (data.results[0].incorrect_answers[0] === 'False'
           || data.results[0].incorrect_answers[0] === 'True'
       ) {
-        resposta0 = [data.results[0].incorrect_answers[0],
-          data.results[0].correct_answer];
+        resposta0 = [data.results[0].incorrect_answers[0]];
       } else {
         resposta0 = data.results[0].incorrect_answers;
+        // resposta0.push(data.results[0].correct_answer);
+      }
+
+      if (Array.isArray(data.results[0].correct_answer)) {
+        resposta0.push(data.results[0].correct_answer[0]);
+      } else {
         resposta0.push(data.results[0].correct_answer);
       }
 
+      const randomFactor = 0.5;
       resposta0.sort(() => Math.random() - randomFactor);
       this.setState({ respostas: resposta0 });
       this.setState({ isLoaded: true });
@@ -50,7 +55,7 @@ class Game extends Component {
   componentDidUpdate(_prevProps, prevState) {
     const TIME_LIMIT = 1;
     if (prevState.seconds === TIME_LIMIT) {
-      this.setState({ disabled: true });
+      this.setState({ disabled: true, isFirstQuestion: false });
       clearInterval(this.intervalID);
     }
   }
@@ -69,33 +74,39 @@ class Game extends Component {
     this.setState({
       idPergunta: idPergunta + 1,
       disabled: false,
+      respostas: [],
     }, () => {
       this.updateNextAnswer();
+      this.setState({ seconds: 30 });
+      this.startTime();
+      const { history } = this.props;
+      const n = 4;
+      if (idPergunta === n) {
+        history.push('/feedback');
+      }
     });
-    this.setState({ seconds: 30 });
-    this.startTime();
-    const { history } = this.props;
-    const n = 4;
-    if (idPergunta === n) {
-      history.push('/feedback');
-    }
   };
 
   updateNextAnswer = () => {
     const { perguntas, idPergunta } = this.state;
-    let resposta = [];
-    if (Array.isArray(perguntas[idPergunta].correct_answer)) {
-      resposta = perguntas[idPergunta].incorrect_answers;
-      resposta.push(perguntas[idPergunta].correct_answer[0]);
-    } else {
-      resposta = perguntas[idPergunta].incorrect_answers;
-      resposta.push(perguntas[idPergunta].correct_answer);
-    }
 
-    const randomFactor = 0.5;
-    resposta.sort(() => Math.random() - randomFactor);
-    this.setState({ respostas: resposta,
-      // disabled: false,
+    this.setState({ respostas: [] }, () => {
+      let resposta = [];
+      // resposta = perguntas[idPergunta].incorrect_answers;
+      resposta = perguntas[idPergunta].incorrect_answers
+        .filter((respost) => respost !== perguntas[idPergunta]);
+      console.log(perguntas[idPergunta]);
+      if (Array.isArray(perguntas[idPergunta].correct_answer)) {
+        console.log(perguntas[idPergunta].correct_answer);
+        resposta.push(perguntas[idPergunta].correct_answer[0]);
+      } else {
+        resposta.push(perguntas[idPergunta].correct_answer);
+      }
+
+      const randomFactor = 0.5;
+      resposta.sort(() => Math.random() - randomFactor);
+      this.setState({ respostas: resposta,
+      });
     });
   };
 
