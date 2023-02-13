@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -23,6 +24,16 @@ class Feedback extends Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  assertions: PropTypes.number,
+  score: PropTypes.number,
+};
+
+Feedback.defaultProps = {
+  assertions: 0,
+  score: 0,
+};
 
 const mapStateToProps = (globalState) => ({
   ...globalState,
