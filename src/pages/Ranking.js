@@ -76,9 +76,7 @@ Ranking.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  players: PropTypes.arrayOf({
-    map: PropTypes.func,
-  }),
+  players: PropTypes.arrayOf(PropTypes.shape({})),
   player: PropTypes.shape({
     name: PropTypes.string,
   }),

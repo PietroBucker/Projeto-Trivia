@@ -6,8 +6,6 @@ import Header from '../compomemts/Header';
 class Feedback extends Component {
   render() {
     const { assertions, score, history } = this.props;
-    console.log(score);
-    console.log(assertions);
     const asserts = 3;
     return (
       <div>
@@ -57,7 +55,9 @@ Feedback.propTypes = {
 Feedback.defaultProps = {
   assertions: 0,
   score: 0,
-  history: PropTypes.shape({}),
+  history: {
+    push: () => {},
+  },
 };
 
 const mapStateToProps = (globalState) => ({

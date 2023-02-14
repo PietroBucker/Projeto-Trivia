@@ -71,19 +71,20 @@ class Game extends Component {
 
   handleNext = () => {
     const { idPergunta } = this.state;
+    const n = 4;
     this.setState({
-      idPergunta: idPergunta + 1,
+      idPergunta: idPergunta < n && idPergunta + 1,
       disabled: false,
       respostas: [],
     }, () => {
-      this.updateNextAnswer();
       this.setState({ seconds: 30 });
       this.startTime();
       const { history } = this.props;
-      const n = 4;
       if (idPergunta === n) {
         history.push('/feedback');
       }
+      this.updateNextAnswer();
+      return {};
     });
   };
 
@@ -95,7 +96,6 @@ class Game extends Component {
       // resposta = perguntas[idPergunta].incorrect_answers;
       resposta = perguntas[idPergunta].incorrect_answers
         .filter((respost) => respost !== perguntas[idPergunta]);
-      console.log(perguntas[idPergunta]);
       if (Array.isArray(perguntas[idPergunta].correct_answer)) {
         console.log(perguntas[idPergunta].correct_answer);
         resposta.push(perguntas[idPergunta].correct_answer[0]);
