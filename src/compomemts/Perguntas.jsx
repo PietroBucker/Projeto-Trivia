@@ -26,12 +26,12 @@ Perguntas.propTypes = {
 };
 
 Perguntas.defaultProps = {
-  question: PropTypes.shape({
+  question: {
     category: '',
     correct_answer: '',
     incorrect_answers: [],
     question: '',
-  }),
+  },
 };
 const mapStateToProps = (state) => ({
   player: state.player,

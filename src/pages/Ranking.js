@@ -40,24 +40,21 @@ class Ranking extends Component {
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
         {
-          players.sort((a, b) => b.score - a.score).map((player, index) => {
-            console.log('');
-            return (
-              <div key={ player.name }>
-                <img src={ player.image } alt="" />
-                <h2
-                  data-testid={ `player-name-${index}` }
-                >
-                  {player.name}
-                </h2>
-                <p
-                  data-testid={ `player-score-${index}` }
-                >
-                  {player.score}
-                </p>
-              </div>
-            );
-          })
+          players.sort((a, b) => b.score - a.score).map((player, index) => (
+            <div key={ player.name }>
+              <img src={ player.image } alt="" />
+              <h2
+                data-testid={ `player-name-${index}` }
+              >
+                {player.name}
+              </h2>
+              <p
+                data-testid={ `player-score-${index}` }
+              >
+                {player.score}
+              </p>
+            </div>
+          ))
         }
         <button
           type="button"
@@ -76,9 +73,7 @@ Ranking.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  players: PropTypes.arrayOf({
-    map: PropTypes.func,
-  }),
+  players: PropTypes.arrayOf(PropTypes.shape({})),
   player: PropTypes.shape({
     name: PropTypes.string,
   }),
@@ -90,7 +85,7 @@ Ranking.defaultProps = {
 };
 // Esperando o nome do reducer para essa page.
 const mapStateToProps = (state) => ({
-  players: state.players,
+  // players: state.players,
   player: state.player,
 });
 
