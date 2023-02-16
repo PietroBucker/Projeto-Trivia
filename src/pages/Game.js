@@ -41,9 +41,12 @@ class Game extends Component {
         resposta0 = [data.results[0].incorrect_answers[0]];
       } else {
         resposta0 = data.results[0].incorrect_answers;
+        // resposta0.push(data.results[0].correct_answer);
       }
 
-      if (!Array.isArray(data.results[0].correct_answer)) {
+      if (Array.isArray(data.results[0].correct_answer)) {
+        resposta0.push(data.results[0].correct_answer[0]);
+      } else {
         resposta0.push(data.results[0].correct_answer);
       }
 
@@ -74,20 +77,19 @@ class Game extends Component {
 
   handleNext = () => {
     const { idPergunta } = this.state;
-    const n = 4;
     this.setState({
-      idPergunta: idPergunta < n && idPergunta + 1,
+      idPergunta: idPergunta + 1,
       disabled: false,
       respostas: [],
     }, () => {
+      this.updateNextAnswer();
       this.setState({ seconds: 30 });
       this.startTime();
       const { history } = this.props;
+      const n = 4;
       if (idPergunta === n) {
         history.push('/feedback');
       }
-      this.updateNextAnswer();
-      return {};
     });
   };
 
@@ -99,14 +101,9 @@ class Game extends Component {
       // resposta = perguntas[idPergunta].incorrect_answers;
       resposta = perguntas[idPergunta].incorrect_answers
         .filter((respost) => respost !== perguntas[idPergunta]);
-<<<<<<< HEAD
-      if (!Array.isArray(perguntas[idPergunta].correct_answer)) {
-        // resposta.push(perguntas[idPergunta].correct_answer[0]);
-=======
       if (Array.isArray(perguntas[idPergunta].correct_answer)) {
         resposta.push(perguntas[idPergunta].correct_answer[0]);
       } else {
->>>>>>> 116d99fb7222fcd52158ddfda0af9a80b31a2a3b
         resposta.push(perguntas[idPergunta].correct_answer);
       }
 

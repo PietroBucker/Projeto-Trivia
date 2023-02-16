@@ -8,6 +8,7 @@ export default class Settings extends Component {
    `;
 
   render() {
+    const { history } = this.props;
     return (
       <div
         className="bg-white w-[600px] h-[650px] absolute left-[33%]
@@ -25,9 +26,21 @@ export default class Settings extends Component {
           alt=""
           className="w-[400px] m-auto mt-4 rounded-[30px]"
         />
-        <button type="button" onClick={ () => { this.props.history.push('/'); } } className={ this.buttonStyleStandard }>Voltar</button>
+        <button
+          type="button"
+          onClick={ () => { history.push('/'); } }
+          className={ this.buttonStyleStandard }
+        >
+          Voltar
+
+        </button>
 
       </div>
     );
   }
 }
+Settings.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
