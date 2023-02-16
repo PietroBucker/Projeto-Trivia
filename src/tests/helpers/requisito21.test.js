@@ -1,10 +1,9 @@
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import Feedback from '../../pages/Feedback';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../../App';
-import { questionsResponse } from './mock/questions';
-import { act } from 'react-dom/test-utils';
+import { invalidTokenQuestionsResponse, questionsResponse } from './mock/questions';
 
 afterEach(() => jest.clearAllMocks());
 
@@ -77,10 +76,13 @@ describe('Teste o componentes da Page Game', () => {
     const btnRanking = screen.getByRole('button', { name: /ranking/i });
     userEvent.click(btnRanking);
 
-    expect(screen.getByRole('heading', { name: /teste teste/i }))
+    expect(screen.getByRole('heading', { name: /teste teste/i }));
+    const btnGoHome = screen.getByRole('button', { name: /voltar ao início/i });
+    userEvent.click(btnGoHome);
 
+    expect(await screen.findByText(/nome/i));
+    expect(history.location.pathname).toBe('/')
 
-    
 
   })
   it('testando o timer', async () => {
@@ -112,8 +114,11 @@ describe('Teste o componentes da Page Game', () => {
     expect(await screen.findByTestId('question-category'))
     expect(await screen.findByRole('heading', { name: /show do milhão/i }))
 
-    expect(await screen.findByText('20', {}, { timeout: 10000 })).toBeInTheDocument();
-  }, 11000)
+    expect(await screen.findByText('0', {}, { timeout: 31000 })).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /next/i}, { timeout: 31000 }));
+    expect(await screen.findByTestId('correct-answer', {}, {timeout: 30000 })).toBeDisabled();
+    
+  }, 32000)
 
   it('Testa o caminho do play again', async () => {
     const tokenResponse = {
@@ -167,13 +172,18 @@ describe('Teste o componentes da Page Game', () => {
     expect(screen.getByText('Generally, which component of a computer draws the most power?')).toBeInTheDocument();
     const btnTestQuestionWrong = screen.getAllByTestId(/wrong-answer/i);
     const btnTestQuestionCorrect = screen.getAllByTestId('correct-answer');
-
     userEvent.click(btnTestQuestionCorrect[0]);
-
     expect(btnTestQuestionWrong).toHaveLength(3);
     expect(btnTestQuestionCorrect).toHaveLength(1);
 
     userEvent.click(btnNext);
+
+    expect(screen.getByText('teste e real')).toBeInTheDocument();
+    const btnfalse = screen.getByTestId(/wrong-answer/i);
+    const btnTrue = screen.getByTestId('correct-answer');
+
+    userEvent.click(btnfalse);
+
     userEvent.click(btnNext);
     userEvent.click(btnNext);
     userEvent.click(btnNext);
@@ -186,23 +196,22 @@ describe('Teste o componentes da Page Game', () => {
   })
 
   it('teste se o token estiver errado volta a pagina inicial', async () => {
-    const tokenResponse = {
-      "response_code":0,
-      "response_message":"Token Generated Successfully!",
-      "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127"
-    };
+    const invalidTokenResponse = {
+      "response_code": 0,
+      "response_message": "Token Generated Successfully!",
+      "token": "INVALID_TOKEN"
+    }
     jest.spyOn(global, 'fetch').mockImplementation(async (endpoint) => ({
       json: jest.fn().mockImplementation( async () => {
         if(endpoint === 'https://opentdb.com/api_token.php?command=request'){
-          return tokenResponse;
+          return invalidTokenResponse;
         }
-        if(endpoint === `https://opentdb.com/api.php?amount=5&token=${tokenResponse.token}`) {
-         return questionsResponse;
+        if(endpoint === `https://opentdb.com/api.php?amount=5&token=${invalidTokenResponse.token}`) {
+         return invalidTokenQuestionsResponse;
         }
       })
     }))
-
-    const { history } = renderWithRouterAndRedux(<App />)
+    const { history, debug } = renderWithRouterAndRedux(<App />)
     const inputName = screen.getByRole('textbox', { name: /nome/i })
     const inputEmail = screen.getByRole('textbox', { name: /email/i })
     const btnPlay = screen.getByRole('button', { name: /play/i });
@@ -212,7 +221,9 @@ describe('Teste o componentes da Page Game', () => {
 
     expect(btnPlay).toBeEnabled();
     userEvent.click(btnPlay)
-    expect(await screen.findByRole('button', { name: /play/i}))
+    localStorage.clear();
+    expect(await screen.findByRole('heading', { name: /show do milhão/i }))
+    expect(await screen.findByRole('button', { name: /play/i}, {timeout: 2000}))
     expect(history.location.pathname).toBe('/')
   })
 })

@@ -55,9 +55,7 @@ Feedback.propTypes = {
 Feedback.defaultProps = {
   assertions: 0,
   score: 0,
-  history: {
-    push: () => {},
-  },
+  history: {},
 };
 
 const mapStateToProps = (globalState) => ({

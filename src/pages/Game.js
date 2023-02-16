@@ -35,12 +35,9 @@ class Game extends Component {
         resposta0 = [data.results[0].incorrect_answers[0]];
       } else {
         resposta0 = data.results[0].incorrect_answers;
-        // resposta0.push(data.results[0].correct_answer);
       }
 
-      if (Array.isArray(data.results[0].correct_answer)) {
-        resposta0.push(data.results[0].correct_answer[0]);
-      } else {
+      if (!Array.isArray(data.results[0].correct_answer)) {
         resposta0.push(data.results[0].correct_answer);
       }
 
@@ -96,10 +93,8 @@ class Game extends Component {
       // resposta = perguntas[idPergunta].incorrect_answers;
       resposta = perguntas[idPergunta].incorrect_answers
         .filter((respost) => respost !== perguntas[idPergunta]);
-      if (Array.isArray(perguntas[idPergunta].correct_answer)) {
-        console.log(perguntas[idPergunta].correct_answer);
-        resposta.push(perguntas[idPergunta].correct_answer[0]);
-      } else {
+      if (!Array.isArray(perguntas[idPergunta].correct_answer)) {
+        // resposta.push(perguntas[idPergunta].correct_answer[0]);
         resposta.push(perguntas[idPergunta].correct_answer);
       }
 

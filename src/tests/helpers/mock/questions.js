@@ -39,12 +39,10 @@ export const questionsResponse = {
       "category": "Entertainment: Video Games",
       "type": "multiple",
       "difficulty": "easy",
-      "question": "What is the most expensive weapon in Counter-Strike: Global Offensive?",
-      "correct_answer": "Scar-20/G3SG1",
+      "question": "teste e real",
+      "correct_answer": "true",
       "incorrect_answers": [
-        "M4A1",
-        "AWP",
-        "R8 Revolver"
+        "false"
       ]
     },
     {
