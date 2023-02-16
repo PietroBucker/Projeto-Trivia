@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 
 const TEST_STATE = {
   players: [
@@ -34,35 +35,57 @@ class Ranking extends Component {
     history.push('/');
   };
 
+  fotoGravatar = (email) => {
+    const hast = md5(email).toString();
+    const src = `https://www.gravatar.com/avatar/${hast}`;
+    return src;
+  };
+
   render() {
     const { players } = this.state;
     return (
-      <div>
-        <h2 data-testid="ranking-title">Ranking</h2>
-        {
-          players.sort((a, b) => b.score - a.score).map((player, index) => (
-            <div key={ player.name }>
-              <img src={ player.image } alt="" />
-              <h2
-                data-testid={ `player-name-${index}` }
-              >
-                {player.name}
-              </h2>
-              <p
-                data-testid={ `player-score-${index}` }
-              >
-                {player.score}
-              </p>
-            </div>
-          ))
-        }
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ this.handleOnClick }
-        >
-          Voltar ao início
-        </button>
+      <div className="page-ranking">
+        <div className="card-ranking">
+          <div className="inputs-ranking">
+            <h2 className="title-rankong" data-testid="ranking-title">Ranking</h2>
+            {
+              players.sort((a, b) => b.score - a.score).map((player, index) => (
+                <div className="card-person" key={ player.name }>
+                  <img
+                    className="foto-ranking"
+                    src={ this.fotoGravatar(player.gravatarEmail) }
+                    alt=""
+                  />
+                  <h2
+                    data-testid={ `player-name-${index}` }
+                  >
+                    {player.name}
+                  </h2>
+                  <div className="card-point">
+                    <img src="https://i.imgur.com/1f09Zd2.png" alt="" className="" />
+                    <p
+                      data-testid={ `player-score-${index}` }
+                    >
+                      {player.score}
+                      {' '}
+                      pontos
+                    </p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div className="card-btn">
+          <button
+            type="button"
+            data-testid="btn-go-home"
+            onClick={ this.handleOnClick }
+            className="btn-ranking bg-[#2FC18C] hover:scale-105 text-white"
+          >
+            JOGAR NOVAMENTE
+          </button>
+        </div>
       </div>
 
     );

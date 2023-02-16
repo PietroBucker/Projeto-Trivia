@@ -1,0 +1,88 @@
+.page-login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+}
+.card-login {
+    display: flex;
+    flex-direction: column;
+    width: 614px;
+    height: 333px;
+    left: 333px;
+    background: #FFFFFF;
+    box-shadow: 1px 4px 13px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-top: 1vh;
+    
+}
+.inputs-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+.name-login {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 12px 16px;
+gap: 10px;
+
+width: 519px;
+height: 45px;
+left: 380px;
+top: 429px;
+/* white */
+background: #FFFFFF;
+/* gray 300 */
+border: 1px solid #E1E5EB;
+border-radius: 0px;
+margin: 10px;
+}
+.email-login {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 10px;
+    
+    width: 519px;
+    height: 45px;
+    left: 380px;
+    top: 364px;
+    /* white */
+    background: #FFFFFF;
+    /* gray 300 */
+    border: 1px solid #E1E5EB;
+    border-radius: 0px; 
+    margin: 10px;
+}
+
+.btn-play {
+    width: 519px;
+    height: 45px;
+    left: 380px;
+    top: 496px;
+    background: #2FC18C;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin: 10px;
+    
+}
+
+.btn-config {
+    width: 519px;
+    height: 45px;
+    left: 380px;
+    top: 557px;
+    background: #35916F;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin: 10px;
+}
+

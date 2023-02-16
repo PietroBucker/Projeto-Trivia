@@ -48,50 +48,58 @@ class Login extends Component {
     const { name, gravatarEmail, disable } = this.state;
     const { history } = this.props;
     return (
-      <section>
-        <label htmlFor="input-name">
-          Nome
-          <input
-            id="input-name"
-            name="name"
-            type="text"
-            value={ name }
-            data-testid="input-player-name"
-            onChange={ this.handleChange }
-          />
-        </label>
+      <section className="page-login">
+        <img src="https://imgur.com/liyWz8F.png" className="App-logo" alt="logo" />
+        <div className="card-login">
+          <div className="inputs-login">
+            <label htmlFor="input-name">
+              <input
+                placeholder="Qual é o seu nome?"
+                className="name-login"
+                id="input-name"
+                name="name"
+                type="text"
+                value={ name }
+                data-testid="input-player-name"
+                onChange={ this.handleChange }
+              />
+            </label>
 
-        <label htmlFor="input-email">
-          Email
-          <input
-            id="input-email"
-            name="gravatarEmail"
-            value={ gravatarEmail }
-            type="email"
-            data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
-          />
-        </label>
+            <label htmlFor="input-email">
+              <input
+                placeholder="Qual é o seu e-mail do gravatar?"
+                className="email-login"
+                id="input-email"
+                name="gravatarEmail"
+                value={ gravatarEmail }
+                type="email"
+                data-testid="input-gravatar-email"
+                onChange={ this.handleChange }
+              />
+            </label>
 
-        <button
-          type="button"
-          disabled={ disable }
-          data-testid="btn-play"
-          onClick={ () => {
-            this.GetApiToken();
-          } }
-        >
-          Play
-        </button>
+            <button
+              className="btn-play bg-[#2FC18C] hover:scale-105 text-white"
+              type="button"
+              disabled={ disable }
+              data-testid="btn-play"
+              onClick={ () => {
+                this.GetApiToken();
+              } }
+            >
+              JOGAR
+            </button>
 
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configuração
-        </button>
-
+            <button
+              className="btn-config bg-[#35906F] hover:scale-105 text-white"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ () => history.push('/settings') }
+            >
+              Configuração
+            </button>
+          </div>
+        </div>
       </section>
     );
   }

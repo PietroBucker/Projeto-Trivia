@@ -1,0 +1,11 @@
+.feedbackbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Epilogue;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 45px;
+    letter-spacing: 0em;
+    text-align: center;
+}
